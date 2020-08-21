@@ -10,6 +10,8 @@ ipython = "*"
 requests = "*"
 pandas = "*"
 lxml = "*"
+plyvel = "*"
+bson = "*"
 
 [requires]
 python_version = "3.6"
