@@ -1,5 +1,5 @@
 from bson import dumps as bdumps
-import datetime
+from datetime import datetime, timezone
 from json import dumps as jdumps
 import pandas as pd
 import plyvel
@@ -28,14 +28,16 @@ df = (
     .to_dict()
 )
 
-now = datetime.datetime.now().isoformat()
+now = datetime.now(timezone.utc)
+iso_now = now.isoformat()
 
 output_dict = {
-    "timestamp": now,
+    "timestamp": iso_now,
     "data": df
 }
 
 db = plyvel.DB("./data", create_if_missing=True)
-db.put(now.encode('utf-8'), bdumps(df))
+db.put(iso_now.encode('utf-8'), bdumps(df))
 
-print(jdumps(output_dict))
+with open(f"json/{now.strftime('%F-%R%z')}.json", "w") as f:
+    f.write((jdumps(output_dict)))
