@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  extractor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./data:/app/data
+      - ./json:/app/json
